@@ -1,4 +1,4 @@
-package com.example.scouting2025
+package com.example.scouting2025.enums
 
 enum class ClimbState {
 

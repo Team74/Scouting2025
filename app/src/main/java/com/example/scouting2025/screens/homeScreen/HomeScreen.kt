@@ -1,17 +1,34 @@
 package com.example.scouting2025.screens.homeScreen
 
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import com.example.scouting2025.database.AppDatabase
 
 @Composable
 fun HomeScreen(
-    vm: HomeScreenViewModel,
-    db: AppDatabase,
-    nc: NavHostController
+    appDatabase: AppDatabase,
+    navigator: NavHostController
 ) {
 
-    Text("Something")
-    
+    Scaffold(
+        topBar = { /* TODO: Top app bar here */ }
+    ) { innerPadding ->
+
+        Row(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(innerPadding)
+        ) {
+
+            // TODO: Put screen content here
+
+        }
+
+    }
+
 }

@@ -6,22 +6,22 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.activity.viewModels
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.scouting2025.database.AppDatabase
 import com.example.scouting2025.database.buildAppDatabase
-import com.example.scouting2025.navigation.NavScreen
-import com.example.scouting2025.screens.homeScreen.HomeScreenViewModel
+import com.example.scouting2025.database.exportDatabaseToCSV
+import com.example.scouting2025.enums.ActivityRequestCode
+import com.example.scouting2025.screens.NavScreen
+import com.example.scouting2025.screens.adminScreen.AdminScreen
+import com.example.scouting2025.screens.homeScreen.HomeScreen
 import com.example.scouting2025.ui.theme.Scouting2025Theme
-
-const val CREATE_FILE = 1
+import java.util.Calendar
 
 class MainActivity : ComponentActivity() {
 
     private lateinit var appDatabase: AppDatabase
-    private val homeScreenViewModel by viewModels<HomeScreenViewModel>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,8 +36,16 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = NavScreen.HomeScreen) {
 
-                    composable<NavScreen> { /* TODO: Add screen composable here */ }
-                    // TODO: Add other screens here...
+                    composable<NavScreen.HomeScreen> { HomeScreen(appDatabase, navController) }
+                    composable<NavScreen.ShiftScreen> { /* TODO: Add screen composable here */ }
+                    composable<NavScreen.RevisionScreen> { /* TODO: Add screen composable here */ }
+                    composable<NavScreen.PrematchScreen> { /* TODO: Add screen composable here */ }
+                    composable<NavScreen.AutonScreen> { /* TODO: Add screen composable here */ }
+                    composable<NavScreen.TeleopScreen> { /* TODO: Add screen composable here */ }
+                    composable<NavScreen.PostmatchScreen> { /* TODO: Add screen composable here */ }
+                    composable<NavScreen.AdminScreen> {
+                        AdminScreen(appDatabase, navController) { launchExportPathSelector() }
+                    }
 
                 }
 
@@ -50,11 +58,14 @@ class MainActivity : ComponentActivity() {
         val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
             addCategory(Intent.CATEGORY_OPENABLE)
             type = "text/csv"
-            // TODO: Update filename to be unique each time
-            putExtra(Intent.EXTRA_TITLE, "database-export.csv")
+            val date = Calendar.getInstance()
+            val year = date.get(Calendar.YEAR)
+            val month = date.get(Calendar.MONTH)
+            val day = date.get(Calendar.DAY_OF_MONTH)
+            putExtra(Intent.EXTRA_TITLE, "$year-$month-$day.database-export.csv")
         }
         @Suppress("DEPRECATION")
-        startActivityForResult(intent, CREATE_FILE)
+        startActivityForResult(intent, ActivityRequestCode.CREATE_FILE.ordinal)
     }
 
     // Called whenever an activity finishes
@@ -70,7 +81,9 @@ class MainActivity : ComponentActivity() {
         // Determine which request code was used for activity
         when (requestCode) {
 
-            CREATE_FILE -> data?.data.also { /* TODO: Call csv exporter function */ }
+            ActivityRequestCode.CREATE_FILE.ordinal -> data?.data.also {
+                exportDatabaseToCSV(it, appDatabase, applicationContext.contentResolver)
+            }
 
         }
     }

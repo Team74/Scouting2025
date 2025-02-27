@@ -1,4 +1,4 @@
-package com.example.scouting2025.navigation
+package com.example.scouting2025.screens
 
 import kotlinx.serialization.Serializable
 

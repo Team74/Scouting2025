@@ -1,7 +1,7 @@
 package com.example.scouting2025.database
 
 import androidx.room.TypeConverter
-import com.example.scouting2025.ClimbState
+import com.example.scouting2025.enums.ClimbState
 
 class Converters {
 
