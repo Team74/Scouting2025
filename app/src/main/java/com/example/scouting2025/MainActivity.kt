@@ -15,7 +15,11 @@ import com.example.scouting2025.database.exportDatabaseToCSV
 import com.example.scouting2025.enums.ActivityRequestCode
 import com.example.scouting2025.screens.NavScreen
 import com.example.scouting2025.screens.adminScreen.AdminScreen
+import com.example.scouting2025.screens.autonScreen.AutonScreen
 import com.example.scouting2025.screens.homeScreen.HomeScreen
+import com.example.scouting2025.screens.postmatchScreen.PostmatchScreen
+import com.example.scouting2025.screens.prematchScreen.PrematchScreen
+import com.example.scouting2025.screens.teleopScreen.TeleopScreen
 import com.example.scouting2025.ui.theme.Scouting2025Theme
 import java.util.Calendar
 
@@ -39,10 +43,10 @@ class MainActivity : ComponentActivity() {
                     composable<NavScreen.HomeScreen> { HomeScreen(appDatabase, navController) }
                     composable<NavScreen.ShiftScreen> { /* TODO: Add screen composable here */ }
                     composable<NavScreen.RevisionScreen> { /* TODO: Add screen composable here */ }
-                    composable<NavScreen.PrematchScreen> { /* TODO: Add screen composable here */ }
-                    composable<NavScreen.AutonScreen> { /* TODO: Add screen composable here */ }
-                    composable<NavScreen.TeleopScreen> { /* TODO: Add screen composable here */ }
-                    composable<NavScreen.PostmatchScreen> { /* TODO: Add screen composable here */ }
+                    composable<NavScreen.PrematchScreen> { PrematchScreen(appDatabase, navController) }
+                    composable<NavScreen.AutonScreen> { AutonScreen(appDatabase, navController) }
+                    composable<NavScreen.TeleopScreen> { TeleopScreen(appDatabase, navController) }
+                    composable<NavScreen.PostmatchScreen> { PostmatchScreen(appDatabase, navController) }
                     composable<NavScreen.AdminScreen> {
                         AdminScreen(appDatabase, navController) { launchExportPathSelector() }
                     }
