@@ -31,6 +31,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.scouting2025.database.AppDatabase
+import com.example.scouting2025.database.MatchData
 import com.example.scouting2025.screens.NavScreen
 
 @Composable
@@ -55,7 +56,7 @@ fun HomeScreen(
         ) {
             Spacer(modifier = Modifier)
             StartMatch {
-                navigator.navigate(NavScreen.PrematchScreen)
+                navigator.navigate(NavScreen.PrematchScreen(MatchData()))
             }
         }
 

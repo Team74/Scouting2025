@@ -1,5 +1,6 @@
 package com.example.scouting2025.screens
 
+import com.example.scouting2025.database.MatchData
 import kotlinx.serialization.Serializable
 
 
@@ -10,7 +11,9 @@ sealed class NavScreen {
     data object HomeScreen : NavScreen()
 
     @Serializable
-    data object PrematchScreen : NavScreen()
+    data class PrematchScreen(
+        val matchData: MatchData
+    ) : NavScreen()
 
     @Serializable
     data object AutonScreen : NavScreen()
