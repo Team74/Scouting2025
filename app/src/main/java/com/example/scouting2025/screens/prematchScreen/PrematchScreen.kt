@@ -1,5 +1,6 @@
 package com.example.scouting2025.screens.prematchScreen
 
+import android.service.autofill.FieldClassification.Match
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -33,12 +34,14 @@ import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import androidx.navigation.NavHostController
 import com.example.scouting2025.database.AppDatabase
+import com.example.scouting2025.database.MatchData
 import com.example.scouting2025.screens.NavScreen
 
 @Composable
 fun PrematchScreen(
     appDatabase: AppDatabase,
-    navigator: NavHostController
+    navigator: NavHostController,
+    matchData: MatchData
 ) {
 
     var matchNumber by remember { mutableStateOf("") }

@@ -9,10 +9,13 @@ import androidx.activity.enableEdgeToEdge
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.toRoute
 import com.example.scouting2025.database.AppDatabase
+import com.example.scouting2025.database.MatchData
 import com.example.scouting2025.database.buildAppDatabase
 import com.example.scouting2025.database.exportDatabaseToCSV
 import com.example.scouting2025.enums.ActivityRequestCode
+import com.example.scouting2025.screens.MatchDataNavType
 import com.example.scouting2025.screens.NavScreen
 import com.example.scouting2025.screens.adminScreen.AdminScreen
 import com.example.scouting2025.screens.autonScreen.AutonScreen
@@ -22,6 +25,7 @@ import com.example.scouting2025.screens.prematchScreen.PrematchScreen
 import com.example.scouting2025.screens.teleopScreen.TeleopScreen
 import com.example.scouting2025.ui.theme.Scouting2025Theme
 import java.util.Calendar
+import kotlin.reflect.typeOf
 
 class MainActivity : ComponentActivity() {
 
@@ -43,7 +47,14 @@ class MainActivity : ComponentActivity() {
                     composable<NavScreen.HomeScreen> { HomeScreen(appDatabase, navController) }
                     composable<NavScreen.ShiftScreen> { /* TODO: Add screen composable here */ }
                     composable<NavScreen.RevisionScreen> { /* TODO: Add screen composable here */ }
-                    composable<NavScreen.PrematchScreen> { PrematchScreen(appDatabase, navController) }
+                    composable<NavScreen.PrematchScreen>(
+                        typeMap = mapOf(
+                            typeOf<MatchData>() to MatchDataNavType.MatchDataType
+                        )
+                    ) {
+                        val matchData = it.toRoute<NavScreen.PrematchScreen>().matchData
+                        PrematchScreen(appDatabase, navController, matchData)
+                    }
                     composable<NavScreen.AutonScreen> { AutonScreen(appDatabase, navController) }
                     composable<NavScreen.TeleopScreen> { TeleopScreen(appDatabase, navController) }
                     composable<NavScreen.PostmatchScreen> { PostmatchScreen(appDatabase, navController) }
