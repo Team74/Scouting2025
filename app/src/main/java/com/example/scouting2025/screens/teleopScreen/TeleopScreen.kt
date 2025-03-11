@@ -18,7 +18,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableIntStateOf
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -26,15 +25,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.scouting2025.database.AppDatabase
-import com.example.scouting2025.screens.NavScreen
+import com.example.scouting2025.database.MatchData
 import com.example.scouting2025.screens.autonScreen.AlgaeColumn
 import com.example.scouting2025.screens.autonScreen.CoralColumn
 
 @Composable
 fun TeleopScreen(
-    appDatabase: AppDatabase,
-    navigator: NavHostController
+    navigator: NavHostController,
+    initialMatchData: MatchData
 ) {
 
     var teleopL1Coral by remember { mutableIntStateOf(0) }
@@ -46,11 +44,11 @@ fun TeleopScreen(
 
     Scaffold(
         topBar = { TeleopTopBar(onClick = {
-            navigator.navigate(NavScreen.AutonScreen)
+            //navigator.navigate(NavScreen.AutonScreen)
         }) },
         floatingActionButton = {
             TeleopDone(onClick = {
-                navigator.navigate(NavScreen.PostmatchScreen)
+                //navigator.navigate(NavScreen.PostMatchScreen)
             })
         }
     ) { innerPadding ->

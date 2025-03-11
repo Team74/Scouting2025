@@ -5,7 +5,9 @@ import android.os.Bundle
 import androidx.navigation.NavType
 import com.example.scouting2025.database.MatchData
 import kotlinx.serialization.json.Json
+import kotlin.reflect.typeOf
 
+@Suppress("MemberVisibilityCanBePrivate")
 object MatchDataNavType {
     val MatchDataType = object : NavType<MatchData>(isNullableAllowed = false) {
         override fun get(bundle: Bundle, key: String): MatchData? {
@@ -24,4 +26,7 @@ object MatchDataNavType {
             bundle.putString(key, Json.encodeToString(value))
         }
     }
+
+    fun toTypeMap() = mapOf(typeOf<MatchData>() to MatchDataType)
+
 }

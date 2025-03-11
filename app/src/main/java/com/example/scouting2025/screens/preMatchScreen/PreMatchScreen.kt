@@ -1,9 +1,7 @@
-package com.example.scouting2025.screens.prematchScreen
+package com.example.scouting2025.screens.preMatchScreen
 
-import android.service.autofill.FieldClassification.Match
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -19,7 +17,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,15 +30,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
 import androidx.navigation.NavHostController
-import com.example.scouting2025.database.AppDatabase
 import com.example.scouting2025.database.MatchData
 import com.example.scouting2025.screens.NavScreen
 
 @Composable
-fun PrematchScreen(
-    appDatabase: AppDatabase,
+fun PreMatchScreen(
     navigator: NavHostController,
-    matchData: MatchData
+    initialMatchData: MatchData
 ) {
 
     var matchNumber by remember { mutableStateOf("") }
@@ -52,7 +47,7 @@ fun PrematchScreen(
         }) },
         floatingActionButton = {
             PrematchDone(onClick = {
-                navigator.navigate(NavScreen.AutonScreen)
+                navigator.navigate(NavScreen.AutonScreen(initialMatchData))
             })
         }
     ) { innerPadding ->
