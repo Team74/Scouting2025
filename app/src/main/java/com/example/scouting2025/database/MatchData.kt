@@ -3,40 +3,42 @@ package com.example.scouting2025.database
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.scouting2025.enums.ClimbState
+import kotlinx.serialization.Serializable
 
 @Entity
+@Serializable
 data class MatchData(
 
     @PrimaryKey
-    val uid: Int,
-    val onShift: String,
+    val uid: Int = 0,
+    val onShift: String = "",
 
     // Prematch data
-    val matchNumber: Int,
-    val teamNumber: Int,
+    val matchNumber: Int = 0,
+    val teamNumber: Int = 0,
 
     // Auton data
-    val autonLeave: Boolean,
-    val autonCoralL1: Int,
-    val autonCoralL2: Int,
-    val autonCoralL3: Int,
-    val autonCoralL4: Int,
-    val autonAlgaeProcessor: Int,
-    val autonAlgaeNet: Int,
+    val autonLeave: Boolean = false,
+    val autonCoralL1: Int = 0,
+    val autonCoralL2: Int = 0,
+    val autonCoralL3: Int = 0,
+    val autonCoralL4: Int = 0,
+    val autonAlgaeProcessor: Int = 0,
+    val autonAlgaeNet: Int = 0,
 
     // Teleop data
-    val teleopCoralL1: Int,
-    val teleopCoralL2: Int,
-    val teleopCoralL3: Int,
-    val teleopCoralL4: Int,
-    val teleopAlgaeProcessor: Int,
-    val teleopAlgaeNet: Int,
+    val teleopCoralL1: Int = 0,
+    val teleopCoralL2: Int = 0,
+    val teleopCoralL3: Int = 0,
+    val teleopCoralL4: Int = 0,
+    val teleopAlgaeProcessor: Int = 0,
+    val teleopAlgaeNet: Int = 0,
 
     // Post match data
-    val climbState: ClimbState,
+    val climbState: ClimbState = ClimbState.DID_NOT_MAKE_IT,
     // val penalties: Any
-    val didRobotDisable: Boolean,
-    val additionalNotes: String
+    val didRobotDisable: Boolean = false,
+    val additionalNotes: String = ""
 
 ) {
 
