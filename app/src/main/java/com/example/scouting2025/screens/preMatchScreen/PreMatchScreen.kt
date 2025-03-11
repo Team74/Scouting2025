@@ -41,13 +41,15 @@ fun PreMatchScreen(
 
     var matchNumber by remember { mutableStateOf("") }
     var teamNumber by remember { mutableStateOf("") }
+    var matchData by remember { mutableStateOf(initialMatchData) }
+
     Scaffold(
-        topBar = { PrematchTopBar(onClick = {
+        topBar = { PreMatchComponents.PrematchTopBar(onClick = {
             navigator.navigate(NavScreen.HomeScreen)
         }) },
         floatingActionButton = {
-            PrematchDone(onClick = {
-                navigator.navigate(NavScreen.AutonScreen(initialMatchData))
+            PreMatchComponents.PrematchDone(onClick = {
+                navigator.navigate(NavScreen.AutonScreen(matchData))
             })
         }
     ) { innerPadding ->
@@ -60,103 +62,14 @@ fun PreMatchScreen(
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Top
         ) {
-            NumberTextbox(
+            PreMatchComponents.NumberTextbox(
                 matchNumber,
                 "Match #"
             ) { matchNumber = it }
-            NumberTextbox(
+            PreMatchComponents.NumberTextbox(
                 teamNumber,
                 "Team #"
             ) { teamNumber = it }
         }
     }
-}
-
-@Composable
-fun NumberTextbox(
-    string: String,
-    label: String,
-    onValueChange: (String) -> Unit
-) {
-    OutlinedTextField(
-        value = string,
-        onValueChange = { newText ->
-            if (newText.isDigitsOnly()) {
-                onValueChange(newText)
-            }
-        },
-        label = {
-            Text(label)
-        },
-        keyboardOptions = KeyboardOptions(
-            keyboardType = KeyboardType.Number
-        ),
-        modifier = Modifier
-            .fillMaxWidth()
-    )
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-@Composable
-fun PrematchDone(onClick: () -> Unit) {
-    ExtendedFloatingActionButton(
-        onClick = onClick,
-        shape = MaterialTheme.shapes.extraLarge
-    ) {
-        Text(
-            text = "To auton",
-            fontSize = 20.sp
-        )
-        Icon(
-            Icons.AutoMirrored.Filled.Send,
-            null
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PrematchTopBar(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    TopAppBar(
-        title = {
-            Text("Pre-match info")
-        },
-        navigationIcon = {
-            IconButton(
-                onClick = onClick
-            ) {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    null
-                )
-            }
-        }
-    )
 }

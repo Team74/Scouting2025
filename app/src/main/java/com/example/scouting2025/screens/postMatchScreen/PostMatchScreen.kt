@@ -33,11 +33,11 @@ fun PostMatchScreen(
 ) {
 
     Scaffold(
-        topBar = { PostmatchTopBar(onClick = {
+        topBar = { PostMatchComponents.PostmatchTopBar(onClick = {
             //navigator.navigate(NavScreen.TeleopScreen)
         }) },
         floatingActionButton = {
-            PostmatchDone(onClick = {
+            PostMatchComponents.PostmatchDone(onClick = {
                 navigator.navigate(NavScreen.HomeScreen)
             })
         }
@@ -54,44 +54,4 @@ fun PostMatchScreen(
             //TODO put in prematch info to be recorded
         }
     }
-}
-
-@Composable
-fun PostmatchDone(onClick: () -> Unit) {
-    ExtendedFloatingActionButton(
-        onClick = onClick,
-        shape = MaterialTheme.shapes.extraLarge
-    ) {
-        Text(
-            text = "Finish match",
-            fontSize = 20.sp
-        )
-        Icon(
-            Icons.AutoMirrored.Filled.Send,
-            null
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun PostmatchTopBar(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    TopAppBar(
-        title = {
-            Text("Post-match info")
-        },
-        navigationIcon = {
-            IconButton(
-                onClick = onClick
-            ) {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    null
-                )
-            }
-        }
-    )
 }

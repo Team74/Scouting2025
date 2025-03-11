@@ -26,8 +26,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.scouting2025.database.MatchData
-import com.example.scouting2025.screens.autonScreen.AlgaeColumn
-import com.example.scouting2025.screens.autonScreen.CoralColumn
+import com.example.scouting2025.screens.ScreenComponents
 
 @Composable
 fun TeleopScreen(
@@ -43,11 +42,11 @@ fun TeleopScreen(
     var teleopNetAlgae by remember { mutableIntStateOf(0) }
 
     Scaffold(
-        topBar = { TeleopTopBar(onClick = {
+        topBar = { TeleopComponents.TeleopTopBar(onClick = {
             //navigator.navigate(NavScreen.AutonScreen)
         }) },
         floatingActionButton = {
-            TeleopDone(onClick = {
+            TeleopComponents.TeleopDone(onClick = {
                 //navigator.navigate(NavScreen.PostMatchScreen)
             })
         }
@@ -61,7 +60,7 @@ fun TeleopScreen(
             horizontalArrangement = Arrangement.SpaceEvenly,
             verticalAlignment = Alignment.Top
         ) {
-            CoralColumn(
+            ScreenComponents.CoralColumn(
                 box1 = teleopL4Coral,
                 onBox1Change = {teleopL4Coral = it},
                 box2 = teleopL3Coral,
@@ -71,7 +70,7 @@ fun TeleopScreen(
                 box4 = teleopL1Coral,
                 onBox4Change = {teleopL1Coral = it}
             )
-            AlgaeColumn(
+            ScreenComponents.AlgaeColumn(
                 box1 = teleopProcessorAlgae,
                 onBox1Change = {teleopProcessorAlgae = it},
                 box2 = teleopNetAlgae,
@@ -81,42 +80,3 @@ fun TeleopScreen(
     }
 }
 
-@Composable
-fun TeleopDone(onClick: () -> Unit) {
-    ExtendedFloatingActionButton(
-        onClick = onClick,
-        shape = MaterialTheme.shapes.extraLarge
-    ) {
-        Text(
-            text = "To post-match",
-            fontSize = 20.sp
-        )
-        Icon(
-            Icons.AutoMirrored.Filled.Send,
-            null
-        )
-    }
-}
-
-@OptIn(ExperimentalMaterial3Api::class)
-@Composable
-fun TeleopTopBar(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit
-) {
-    TopAppBar(
-        title = {
-            Text("Recording Teleop")
-        },
-        navigationIcon = {
-            IconButton(
-                onClick = onClick
-            ) {
-                Icon(
-                    Icons.AutoMirrored.Filled.ArrowBack,
-                    null
-                )
-            }
-        }
-    )
-}
