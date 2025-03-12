@@ -14,8 +14,8 @@ data class MatchData(
     val onShift: String = "",
 
     // Prematch data
-    val matchNumber: Int = 0,
-    val teamNumber: Int = 0,
+    val matchNumber: String = "",
+    val teamNumber: String = "",
 
     // Auton data
     val autonLeave: Boolean = false,

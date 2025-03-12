@@ -38,24 +38,15 @@ fun AutonScreen(
     navigator: NavHostController,
     initialMatchData: MatchData
 ) {
-
-    var autoL1Coral by remember { mutableIntStateOf(0) }
-    var autoL2Coral by remember { mutableIntStateOf(0) }
-    var autoL3Coral by remember { mutableIntStateOf(0) }
-    var autoL4Coral by remember { mutableIntStateOf(0) }
-    var autoProcessorAlgae by remember { mutableIntStateOf(0) }
-    var autoNetAlgae by remember { mutableIntStateOf(0) }
-    var autoMoved by remember { mutableStateOf(false) }
+    var matchData by remember { mutableStateOf(initialMatchData) }
 
     Scaffold(
         topBar = { AutonComponents.AutonTopBar(onClick = {
-            navigator.navigate(NavScreen.PreMatchScreen(
-                MatchData()
-            ))
+            navigator.navigate(NavScreen.PreMatchScreen(matchData))
         }) },
         floatingActionButton = {
             AutonComponents.AutonDone(onClick = {
-                navigator.navigate(NavScreen.TeleopScreen(initialMatchData))
+                navigator.navigate(NavScreen.TeleopScreen(matchData))
             })
         }
     ) { innerPadding ->
@@ -69,23 +60,23 @@ fun AutonScreen(
             verticalAlignment = Alignment.Top
         ) {
             AutonComponents.MovedCheckBox(
-                input = autoMoved
-            ) {autoMoved = it}
+                input = matchData.autonLeave
+            ) {matchData = matchData.copy(autonLeave = it)}
             ScreenComponents.CoralColumn(
-                box1 = autoL4Coral,
-                onBox1Change = {autoL4Coral = it},
-                box2 = autoL3Coral,
-                onBox2Change = {autoL3Coral = it},
-                box3 = autoL2Coral,
-                onBox3Change = {autoL2Coral = it},
-                box4 = autoL1Coral,
-                onBox4Change = {autoL1Coral = it}
+                box1 = matchData.autonCoralL4,
+                onBox1Change = {matchData = matchData.copy(autonCoralL4 = it)},
+                box2 = matchData.autonCoralL3,
+                onBox2Change = {matchData = matchData.copy(autonCoralL3 = it)},
+                box3 = matchData.autonCoralL2,
+                onBox3Change = {matchData = matchData.copy(autonCoralL2 = it)},
+                box4 = matchData.autonCoralL1,
+                onBox4Change = {matchData = matchData.copy(autonCoralL1 = it)}
             )
             ScreenComponents.AlgaeColumn(
-                box1 = autoProcessorAlgae,
-                onBox1Change = {autoProcessorAlgae = it},
-                box2 = autoNetAlgae,
-                onBox2Change = {autoNetAlgae = it},
+                box1 = matchData.autonAlgaeProcessor,
+                onBox1Change = {matchData = matchData.copy(autonAlgaeProcessor = it)},
+                box2 = matchData.autonAlgaeNet,
+                onBox2Change = {matchData = matchData.copy(autonAlgaeNet = it)},
             )
         }
     }
