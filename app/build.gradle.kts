@@ -75,4 +75,7 @@ dependencies {
     // VIEW MODEL COMPOSE DEPENDENCY
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    // PREFERENCES DATASTORE
+    implementation(libs.androidx.datastore.preferences)
+
 }

@@ -1,7 +1,7 @@
 package com.example.scouting2025.screens.postMatchScreen
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -17,6 +17,7 @@ import androidx.navigation.NavHostController
 import com.example.scouting2025.database.AppDatabase
 import com.example.scouting2025.database.MatchData
 import com.example.scouting2025.screens.NavScreen
+import com.example.scouting2025.screens.StandardComponents
 
 @Composable
 fun PostMatchScreen(
@@ -24,28 +25,57 @@ fun PostMatchScreen(
     navigator: NavHostController,
     initialMatchData: MatchData
 ) {
+
+    /* ----------------------------------------------------------------------------------------- */
+    // State variables
+
     var matchData by remember { mutableStateOf(initialMatchData) }
 
+    /* ----------------------------------------------------------------------------------------- */
+    // Screen UI
+
     Scaffold(
-        topBar = { PostMatchComponents.PostmatchTopBar(onClick = {
-            navigator.navigate(NavScreen.TeleopScreen(matchData))
-        }) },
+        topBar = {
+            // Top bar with a back button to the Teleop screen
+            StandardComponents.TopBar("Finish") {
+                navigator.navigate(NavScreen.TeleopScreen(matchData))
+            }
+        },
         floatingActionButton = {
-            PostMatchComponents.PostmatchDone(onClick = {
-                navigator.navigate(NavScreen.HomeScreen)
-            })
+            // Extended floating action button to move to add the match data to the database and
+            // navigate back to the home screen
+            StandardComponents.ContinueButton("Post-match") {
+                /* TODO: Add matchData to the database */
+                navigator.popBackStack(NavScreen.HomeScreen, inclusive = false)
+            }
         }
     ) { innerPadding ->
 
-        Row(
+        Column(
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(16.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+                .padding(16.dp)
         ) {
-            //TODO put in prematch info to be recorded
+
+            /**
+             * The PostMatch screen will present the ui to record the following state
+             * - End of match climb state
+             * - Did the robot disable at all during the match?
+             * - Any additional notes about the match
+             */
+
+            // Climb state dropdown box
+            // ...
+
+            // Did robot disable check box
+            // ...
+
+            // Addition notes text field
+            // ...
+
         }
     }
 }

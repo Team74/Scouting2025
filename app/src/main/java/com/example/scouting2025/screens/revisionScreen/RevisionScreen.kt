@@ -1,19 +1,15 @@
-package com.example.scouting2025.screens.adminScreen
+package com.example.scouting2025.screens.revisionScreen
 
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.scouting2025.database.AppDatabase
 
 @Composable
-fun AdminScreen(
+fun RevisionScreen(
     appDatabase: AppDatabase,
     navigator: NavHostController,
-    onExport: () -> Unit
+    matchDataUid: Int
 ) {
 
     //

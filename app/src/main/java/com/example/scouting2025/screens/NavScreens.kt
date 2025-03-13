@@ -29,10 +29,12 @@ sealed class NavScreen {
     ) : NavScreen()
 
     @Serializable
-    data object ShiftScreen : NavScreen()
+    data object MatchListScreen : NavScreen()
 
     @Serializable
-    data object RevisionScreen : NavScreen()
+    data class RevisionScreen(
+        val uid: Int
+    ) : NavScreen()
 
     @Serializable
     data object AdminScreen : NavScreen()

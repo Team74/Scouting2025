@@ -1,11 +1,14 @@
 package com.example.scouting2025
 
-import android.app.ComponentCaller
-import android.content.Intent
+import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -13,27 +16,51 @@ import androidx.navigation.toRoute
 import com.example.scouting2025.database.AppDatabase
 import com.example.scouting2025.database.buildAppDatabase
 import com.example.scouting2025.database.exportDatabaseToCSV
-import com.example.scouting2025.enums.ActivityRequestCode
 import com.example.scouting2025.screens.MatchDataNavType
 import com.example.scouting2025.screens.NavScreen
 import com.example.scouting2025.screens.adminScreen.AdminScreen
 import com.example.scouting2025.screens.autonScreen.AutonScreen
 import com.example.scouting2025.screens.homeScreen.HomeScreen
+import com.example.scouting2025.screens.matchListScreen.MatchListScreen
 import com.example.scouting2025.screens.postMatchScreen.PostMatchScreen
 import com.example.scouting2025.screens.preMatchScreen.PreMatchScreen
+import com.example.scouting2025.screens.revisionScreen.RevisionScreen
 import com.example.scouting2025.screens.teleopScreen.TeleopScreen
 import com.example.scouting2025.ui.theme.Scouting2025Theme
 import java.util.Calendar
 
 class MainActivity : ComponentActivity() {
 
+    // Create a preferences datastore
+    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
+
+    // App database instance instantiated in the onCreate function
     private lateinit var appDatabase: AppDatabase
+
+    // Activity launcher for the file selector when exporting database to csv
+    val getContent = registerForActivityResult(CreateDocument("text/csv")) { uri ->
+        // If a proper uri was returned, export the database as a csv to that location
+        if (uri != null) {
+            exportDatabaseToCSV(uri, appDatabase, applicationContext.contentResolver)
+        }
+    }
+    // Launch file picker to select database export destination
+    private fun launchExportPathSelector() {
+        val date = Calendar.getInstance()
+        val month = date.get(Calendar.MONTH) + 1
+        val day = date.get(Calendar.DAY_OF_MONTH)
+        val year = date.get(Calendar.YEAR)
+        /* TODO: Change string to include the device's label */
+        getContent.launch("$month-$day-$year.database-export.csv")
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
             Scouting2025Theme {
+
+                context
 
                 // Instantiate database object
                 appDatabase = buildAppDatabase(applicationContext)
@@ -42,30 +69,45 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = NavScreen.HomeScreen) {
 
+                    /* ------------------------------------------------------------------------- */
+                    // Start screen
+
                     composable<NavScreen.HomeScreen> { HomeScreen(navController) }
 
-                    composable<NavScreen.PreMatchScreen>(typeMap = MatchDataNavType.toTypeMap()) {
+                    /* ------------------------------------------------------------------------- */
+                    // Match recording screens
+
+                    composable<NavScreen.PreMatchScreen>(MatchDataNavType.toTypeMap()) {
                         val matchData = it.toRoute<NavScreen.PreMatchScreen>().matchData
                         PreMatchScreen(navController, matchData)
                     }
-                    composable<NavScreen.AutonScreen>(typeMap = MatchDataNavType.toTypeMap()) {
+                    composable<NavScreen.AutonScreen>(MatchDataNavType.toTypeMap()) {
                         val matchData = it.toRoute<NavScreen.AutonScreen>().matchData
                         AutonScreen(navController, matchData)
                     }
-                    composable<NavScreen.TeleopScreen>(typeMap = MatchDataNavType.toTypeMap()) {
+                    composable<NavScreen.TeleopScreen>(MatchDataNavType.toTypeMap()) {
                         val matchData = it.toRoute<NavScreen.TeleopScreen>().matchData
                         TeleopScreen(navController, matchData)
                     }
-                    composable<NavScreen.PostMatchScreen>(typeMap = MatchDataNavType.toTypeMap()) {
+                    composable<NavScreen.PostMatchScreen>(MatchDataNavType.toTypeMap()) {
                         val matchData = it.toRoute<NavScreen.PostMatchScreen>().matchData
                         PostMatchScreen(appDatabase, navController, matchData)
                     }
 
-                    /* TODO: Implement shift system */
-                    composable<NavScreen.ShiftScreen> { /* TODO: Add screen composable here */ }
-                    composable<NavScreen.RevisionScreen> { /* TODO: Add screen composable here */ }
+                    /* ------------------------------------------------------------------------- */
+                    // Match data revision screens for who's on shift
 
-                    /* TODO: Admin controls */
+                    composable<NavScreen.MatchListScreen> {
+                        MatchListScreen(appDatabase, navController)
+                    }
+                    composable<NavScreen.RevisionScreen> {
+                        val uid = it.toRoute<NavScreen.RevisionScreen>().uid
+                        RevisionScreen(appDatabase, navController, uid)
+                    }
+
+                    /* ------------------------------------------------------------------------- */
+                    // Admin screen for unfiltered database access
+
                     composable<NavScreen.AdminScreen> {
                         AdminScreen(appDatabase, navController) { launchExportPathSelector() }
                     }
@@ -73,41 +115,6 @@ class MainActivity : ComponentActivity() {
                 }
 
             }
-        }
-    }
-
-    // Launch file picker to select database export destination
-    private fun launchExportPathSelector() {
-        val intent = Intent(Intent.ACTION_CREATE_DOCUMENT).apply {
-            addCategory(Intent.CATEGORY_OPENABLE)
-            type = "text/csv"
-            val date = Calendar.getInstance()
-            val year = date.get(Calendar.YEAR)
-            val month = date.get(Calendar.MONTH)
-            val day = date.get(Calendar.DAY_OF_MONTH)
-            putExtra(Intent.EXTRA_TITLE, "$year-$month-$day.database-export.csv")
-        }
-        @Suppress("DEPRECATION")
-        startActivityForResult(intent, ActivityRequestCode.CREATE_FILE.ordinal)
-    }
-
-    // Called whenever an activity finishes
-    override fun onActivityResult(
-        requestCode: Int,
-        resultCode: Int,
-        data: Intent?,
-        caller: ComponentCaller
-    ) {
-        // If result was not ok, return early
-        if (resultCode != RESULT_OK) return
-
-        // Determine which request code was used for activity
-        when (requestCode) {
-
-            ActivityRequestCode.CREATE_FILE.ordinal -> data?.data.also {
-                exportDatabaseToCSV(it, appDatabase, applicationContext.contentResolver)
-            }
-
         }
     }
 

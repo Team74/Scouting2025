@@ -42,7 +42,6 @@ data class MatchData(
 
 ) {
 
-    @Suppress("MemberVisibilityCanBePrivate")
     fun getFieldValues(): List<Any> {
         return listOf(
             uid,
