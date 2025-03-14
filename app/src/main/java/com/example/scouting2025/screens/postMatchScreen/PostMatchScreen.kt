@@ -18,6 +18,10 @@ import com.example.scouting2025.database.AppDatabase
 import com.example.scouting2025.database.MatchData
 import com.example.scouting2025.screens.NavScreen
 import com.example.scouting2025.screens.StandardComponents
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 @Composable
 fun PostMatchScreen(
@@ -45,7 +49,8 @@ fun PostMatchScreen(
             // Extended floating action button to move to add the match data to the database and
             // navigate back to the home screen
             StandardComponents.ContinueButton("Post-match") {
-                /* TODO: Add matchData to the database */
+                saveToDatabase(appDatabase, matchData)
+
                 navigator.popBackStack(NavScreen.HomeScreen, inclusive = false)
             }
         }
@@ -77,5 +82,12 @@ fun PostMatchScreen(
             // ...
 
         }
+    }
+}
+
+
+private fun saveToDatabase(appDatabase: AppDatabase, matchData: MatchData) {
+    CoroutineScope(Dispatchers.IO).launch {
+        appDatabase.matchDataDao().update(matchData)
     }
 }

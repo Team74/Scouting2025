@@ -60,8 +60,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             Scouting2025Theme {
 
-                context
-
                 // Instantiate database object
                 appDatabase = buildAppDatabase(applicationContext)
 

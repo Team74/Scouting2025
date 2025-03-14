@@ -15,7 +15,7 @@ TODO:
         - [ ] Differentiation from Auton
     - [ ] PostMatch Screen
         - [ ] Finish state ui
-        - [ ] Add to database
+        - [x] Add to database
     - [ ] Admin Screen
         - [ ] Nuke database
         - [ ] Export database
