@@ -2,7 +2,7 @@
 @ March 13, 2025
 TODO:
     - [ ] Home Screen
-        - [ ] Image logos?
+        - [x] Image logos?
         - [ ] Admin password dialog
         - [ ] Login dialog
         - [ ] End shift ui
@@ -13,8 +13,8 @@ TODO:
     - [ ] Teleop Screen
         - [ ] Same as for Auton Screen
         - [ ] Differentiation from Auton
-    - [ ] PostMatch Screen
-        - [ ] Finish state ui
+    - [x] PostMatch Screen
+        - [x] Finish state ui
         - [x] Add to database
     - [ ] Admin Screen
         - [ ] Nuke database

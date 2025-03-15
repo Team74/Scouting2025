@@ -21,7 +21,6 @@ import com.example.scouting2025.screens.StandardComponents
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlin.coroutines.CoroutineContext
 
 @Composable
 fun PostMatchScreen(
@@ -35,34 +34,35 @@ fun PostMatchScreen(
 
     var matchData by remember { mutableStateOf(initialMatchData) }
 
+    var dropdownExpanded by remember { mutableStateOf(false ) }
+
     /* ----------------------------------------------------------------------------------------- */
     // Screen UI
 
     Scaffold(
         topBar = {
             // Top bar with a back button to the Teleop screen
-            StandardComponents.TopBar("Finish") {
+            StandardComponents.TopBar("Post-match") {
                 navigator.navigate(NavScreen.TeleopScreen(matchData))
             }
         },
         floatingActionButton = {
             // Extended floating action button to move to add the match data to the database and
             // navigate back to the home screen
-            StandardComponents.ContinueButton("Post-match") {
+            StandardComponents.ContinueButton("Finish") {
                 saveToDatabase(appDatabase, matchData)
-
                 navigator.popBackStack(NavScreen.HomeScreen, inclusive = false)
             }
         }
     ) { innerPadding ->
 
         Column(
-            verticalArrangement = Arrangement.SpaceEvenly,
+            verticalArrangement = Arrangement.Top,
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(16.dp)
+                .padding(horizontal = 256.dp, vertical = 64.dp)
         ) {
 
             /**
@@ -73,13 +73,27 @@ fun PostMatchScreen(
              */
 
             // Climb state dropdown box
-            // ...
+            PostMatchComponents.ClimbStateDropDown(
+                state = matchData.climbState,
+                onStateChange = { matchData = matchData.copy(climbState = it) },
+                expanded = dropdownExpanded,
+                onExpandedChange = { dropdownExpanded = it }
+            )
 
             // Did robot disable check box
-            // ...
+            StandardComponents.LabeledCheckBox(
+                state = matchData.didRobotDisable,
+                onStateChange = { matchData = matchData.copy(didRobotDisable = it) },
+                label = "Did the robot disable?",
+                modifier = Modifier
+                    .padding(top = 8.dp)
+            )
 
             // Addition notes text field
-            // ...
+            PostMatchComponents.AdditionalNotesField(
+                text = matchData.additionalNotes,
+                onTextChange = { matchData = matchData.copy(additionalNotes = it) }
+            )
 
         }
     }

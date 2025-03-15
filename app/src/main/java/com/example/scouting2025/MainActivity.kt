@@ -1,19 +1,16 @@
 package com.example.scouting2025
 
-import android.content.Context
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts.CreateDocument
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import com.example.scouting2025.database.AppDatabase
+import com.example.scouting2025.database.DeviceDataStore
 import com.example.scouting2025.database.buildAppDatabase
 import com.example.scouting2025.database.exportDatabaseToCSV
 import com.example.scouting2025.screens.MatchDataNavType
@@ -30,9 +27,6 @@ import com.example.scouting2025.ui.theme.Scouting2025Theme
 import java.util.Calendar
 
 class MainActivity : ComponentActivity() {
-
-    // Create a preferences datastore
-    val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
 
     // App database instance instantiated in the onCreate function
     private lateinit var appDatabase: AppDatabase
@@ -63,6 +57,9 @@ class MainActivity : ComponentActivity() {
                 // Instantiate database object
                 appDatabase = buildAppDatabase(applicationContext)
 
+                // Instantiate the preferences datastore
+                val deviceDataStore = DeviceDataStore(applicationContext)
+
                 // Create the navController and screen composables
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = NavScreen.HomeScreen) {
@@ -70,14 +67,14 @@ class MainActivity : ComponentActivity() {
                     /* ------------------------------------------------------------------------- */
                     // Start screen
 
-                    composable<NavScreen.HomeScreen> { HomeScreen(navController) }
+                    composable<NavScreen.HomeScreen> { HomeScreen(deviceDataStore, navController) }
 
                     /* ------------------------------------------------------------------------- */
                     // Match recording screens
 
                     composable<NavScreen.PreMatchScreen>(MatchDataNavType.toTypeMap()) {
                         val matchData = it.toRoute<NavScreen.PreMatchScreen>().matchData
-                        PreMatchScreen(navController, matchData)
+                        PreMatchScreen(deviceDataStore, navController, matchData)
                     }
                     composable<NavScreen.AutonScreen>(MatchDataNavType.toTypeMap()) {
                         val matchData = it.toRoute<NavScreen.AutonScreen>().matchData

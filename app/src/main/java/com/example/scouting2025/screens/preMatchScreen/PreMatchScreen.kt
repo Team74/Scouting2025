@@ -10,6 +10,7 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -20,12 +21,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
+import com.example.scouting2025.database.DeviceDataStore
 import com.example.scouting2025.database.MatchData
 import com.example.scouting2025.screens.NavScreen
 import com.example.scouting2025.screens.StandardComponents
 
 @Composable
 fun PreMatchScreen(
+    deviceDataStore: DeviceDataStore,
     navigator: NavHostController,
     initialMatchData: MatchData
 ) {
@@ -33,7 +36,13 @@ fun PreMatchScreen(
     /* ----------------------------------------------------------------------------------------- */
     // State variables
 
-    var matchData by remember { mutableStateOf(initialMatchData) }
+    val deviceModel = deviceDataStore.deviceModel.collectAsState(
+        DeviceDataStore.Companion.DeviceModel("", "", listOf())
+    )
+
+    var matchData by remember {
+        mutableStateOf(initialMatchData.copy(onShift = deviceModel.value.loggedIn))
+    }
 
     // These will be used determine if the text fields have been edited yet and will only be true
     // when their respective fields have been.
@@ -58,13 +67,13 @@ fun PreMatchScreen(
     Scaffold(
         topBar = {
             // Top bar with a title and a back button
-            StandardComponents.TopBar("PreMatch") { navigator.popBackStack() }
+            StandardComponents.TopBar("PreMatch") { navigator.popBackStack(NavScreen.HomeScreen, inclusive = false) }
         },
         floatingActionButton = {
             // Extended floating action button to move to next screen
             StandardComponents.ContinueButton("Auton") {
-                // Only allow a continue if no errors exist
-                if (!isMatchNumberError && !isTeamNumberError) {
+                // Only allow a continue if both fields have input
+                if (matchData.matchNumber.isNotEmpty() && matchData.teamNumber.isNotEmpty()) {
                     navigator.navigate(NavScreen.AutonScreen(matchData))
                 }
             }

@@ -13,36 +13,38 @@ class DeviceDataStore(
     private val context: Context
 ) {
 
-    private fun matchListStringToList(str: String): List<Int> {
-        return listOf()
-    }
+    /* ----------------------------------------------------------------------------------------- */
+    // Companion stuff idk
 
     companion object {
         data class DeviceModel(
-            val device: String,
-            val matchList: List<Int>
+            val device: String = "",
+            val loggedIn: String = "",
         )
 
         private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "settings")
         private val DEVICE = stringPreferencesKey("device")
-        private val MATCHLIST = stringPreferencesKey("matchList")
+        private val LOGIN = stringPreferencesKey("loggedIn")
     }
 
-    val deviceModel : Flow<DeviceModel> = context.dataStore.data
-        .map { preferences ->
+    /* ----------------------------------------------------------------------------------------- */
+    // State
+
+    val deviceModel : Flow<DeviceModel> = context.dataStore.data.map { preferences ->
             DeviceModel(
                 preferences[DEVICE] ?: "",
-                matchListStringToList(preferences[MATCHLIST] ?: "")
+                preferences[LOGIN] ?: ""
             )
         }
 
-    /* TODO: Just check the Medium article about DataStore */
+    /* ----------------------------------------------------------------------------------------- */
+    // Update functions
 
-    suspend fun saveDeviceData(deviceModel: DeviceModel) {
-        context.dataStore.edit { preferences ->
-            preferences[DEVICE] = deviceModel.device
-            preferences[MATCHLIST] = deviceModel.matchList.toString()
-        }
+    suspend fun setDevice(deviceModel: DeviceModel) {
+        context.dataStore.edit { it[DEVICE] = deviceModel.device }
+    }
+    suspend fun setLogin(deviceModel: DeviceModel) {
+        context.dataStore.edit { it[LOGIN] = deviceModel.loggedIn }
     }
 
 }
