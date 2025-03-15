@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -15,6 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.scouting2025.enums.Tablets
 
 object AdminComponents {
     @OptIn(ExperimentalMaterial3Api::class)
@@ -54,6 +56,28 @@ object AdminComponents {
                 }
             }
 
+        }
+    }
+
+    @Composable
+    fun DeviceSelect(
+        modifier: Modifier = Modifier,
+        currentTablet: Tablets,
+        onTabletChange: (Tablets) -> Unit
+    ) {
+        Row(
+            modifier = Modifier
+                .padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Tablets.entries.forEach { tablet ->
+                FilterChip(
+                    selected = currentTablet == tablet,
+                    onClick = {onTabletChange(tablet)},
+                    label = {Text(tablet.name)}
+                )
+            }
         }
     }
 }

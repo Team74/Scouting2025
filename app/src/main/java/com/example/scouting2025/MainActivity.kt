@@ -104,7 +104,7 @@ class MainActivity : ComponentActivity() {
                     // Admin screen for unfiltered database access
 
                     composable<NavScreen.AdminScreen> {
-                        AdminScreen(appDatabase, navController) { launchExportPathSelector() }
+                        AdminScreen(appDatabase, navController, deviceDataStore) { launchExportPathSelector() }
                     }
 
                 }

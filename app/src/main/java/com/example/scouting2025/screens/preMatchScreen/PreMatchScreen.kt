@@ -111,6 +111,7 @@ fun PreMatchScreen(
                 leadingIcon = Icons.Default.Star,
                 isError = isMatchNumberError,
                 onErrorText = "A match number is required to move forward!",
+                maxDigits = 2,
                 modifier = Modifier
                     .fillMaxWidth()
             )
@@ -125,6 +126,7 @@ fun PreMatchScreen(
                 leadingIcon = Icons.Default.Star,
                 isError = isTeamNumberError,
                 onErrorText = "A team number is required to move forward!",
+                maxDigits = 5,
                 modifier = Modifier
                     .fillMaxWidth()
             )

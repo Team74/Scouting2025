@@ -6,6 +6,7 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
+import com.example.scouting2025.enums.Tablets
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
@@ -40,8 +41,8 @@ class DeviceDataStore(
     /* ----------------------------------------------------------------------------------------- */
     // Update functions
 
-    suspend fun setDevice(deviceModel: DeviceModel) {
-        context.dataStore.edit { it[DEVICE] = deviceModel.device }
+    suspend fun setDevice(tablet: Tablets) {
+        context.dataStore.edit { it[DEVICE] = tablet.name }
     }
     suspend fun setLogin(deviceModel: DeviceModel) {
         context.dataStore.edit { it[LOGIN] = deviceModel.loggedIn }

@@ -99,10 +99,11 @@ object StandardComponents {
         text: String,
         onTextChange: (String) -> Unit,
         label: String,
+        maxDigits: Int,
         modifier: Modifier = Modifier,
         leadingIcon: ImageVector? = null,
         isError: Boolean = false,
-        onErrorText: String = ""
+        onErrorText: String = "",
     ) {
         OutlinedTextField(
             value = text,
@@ -111,7 +112,7 @@ object StandardComponents {
                 // the length of the text is less than 7 characters because converting to an int
                 // later when its bigger causes an error.
                 // This clamps the acceptable text to ONLY digits.
-                if (newText.length < 7 && newText.isDigitsOnly()) {
+                if (newText.length <= maxDigits && newText.isDigitsOnly()) {
                     onTextChange(newText)
                 }
             },
