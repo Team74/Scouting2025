@@ -67,7 +67,8 @@ object PostMatchComponents {
             value = text,
             onValueChange = onTextChange,
             label = { Text("Additional Notes") },
-            leadingIcon = { Icon(Icons.Default.ThumbUp, null) }
+            leadingIcon = { Icon(Icons.Default.ThumbUp, null) },
+            singleLine = true
         )
     }
     

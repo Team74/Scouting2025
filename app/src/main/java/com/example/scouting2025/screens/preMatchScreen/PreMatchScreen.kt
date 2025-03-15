@@ -37,7 +37,7 @@ fun PreMatchScreen(
     // State variables
 
     val deviceModel = deviceDataStore.deviceModel.collectAsState(
-        DeviceDataStore.Companion.DeviceModel("", "", listOf())
+        DeviceDataStore.Companion.DeviceModel("", "")
     )
 
     var matchData by remember {

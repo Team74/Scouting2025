@@ -9,7 +9,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class MatchData(
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     val uid: Int = 0,
     val onShift: String = "",
 

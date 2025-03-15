@@ -15,7 +15,7 @@ interface MatchDataDao {
     @Query("SELECT * FROM MatchData WHERE uid = :uid")
     suspend fun fetch(uid: Int): MatchData
 
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert
     suspend fun update(data: MatchData)
 
     @Delete

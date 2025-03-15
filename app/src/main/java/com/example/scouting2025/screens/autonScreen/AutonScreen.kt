@@ -1,6 +1,7 @@
 package com.example.scouting2025.screens.autonScreen
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
@@ -53,7 +54,7 @@ fun AutonScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(16.dp)
+                .padding(horizontal = 16.dp)
         ) {
 
             /**
@@ -62,13 +63,6 @@ fun AutonScreen(
              * - How much (and which level) coral was scored
              * - How much (and where) algae was scored
              */
-
-            // Did robot leave starting area
-            StandardComponents.LabeledCheckBox(
-                state = matchData.autonLeave,
-                onStateChange = { matchData = matchData.copy(autonLeave = it) },
-                label = "Did robot leave starting area?"
-            )
 
             // Coral column
             StandardComponents.CoralColumn(
@@ -79,16 +73,30 @@ fun AutonScreen(
                 box3 = matchData.autonCoralL2,
                 onBox3Change = {matchData = matchData.copy(autonCoralL2 = it)},
                 box4 = matchData.autonCoralL1,
-                onBox4Change = {matchData = matchData.copy(autonCoralL1 = it)}
+                onBox4Change = {matchData = matchData.copy(autonCoralL1 = it)},
+                isAuton = true
             )
 
-            // Algae column
-            StandardComponents.AlgaeColumn(
-                box1 = matchData.autonAlgaeProcessor,
-                onBox1Change = {matchData = matchData.copy(autonAlgaeProcessor = it)},
-                box2 = matchData.autonAlgaeNet,
-                onBox2Change = {matchData = matchData.copy(autonAlgaeNet = it)},
-            )
+            Column (
+                verticalArrangement = Arrangement.spacedBy(24.dp),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ){
+                // Algae column
+                StandardComponents.AlgaeColumn(
+                    box1 = matchData.autonAlgaeProcessor,
+                    onBox1Change = {matchData = matchData.copy(autonAlgaeProcessor = it)},
+                    box2 = matchData.autonAlgaeNet,
+                    onBox2Change = {matchData = matchData.copy(autonAlgaeNet = it)},
+                    isAuton = true
+                )
+
+                // Did robot leave starting area
+                StandardComponents.LabeledCheckBox(
+                    state = matchData.autonLeave,
+                    onStateChange = { matchData = matchData.copy(autonLeave = it) },
+                    label = "Did robot leave starting area?"
+                )
+            }
 
         }
     }

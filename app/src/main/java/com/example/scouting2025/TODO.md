@@ -3,22 +3,23 @@
 TODO:
     - [ ] Home Screen
         - [x] Image logos?
-        - [ ] Admin password dialog
+        - [x] Admin password dialog
         - [ ] Login dialog
         - [ ] End shift ui
     - [x] PreMatch Screen
-    - [ ] Auton Screen
-        - [ ] Organize ui
-        - [ ] Design accessible input columns
-    - [ ] Teleop Screen
-        - [ ] Same as for Auton Screen
-        - [ ] Differentiation from Auton
+    - [x] Auton Screen
+        - [x] Organize ui
+        - [x] Design accessible input columns
+    - [x] Teleop Screen
+        - [x] Same as for Auton Screen
+        - [x] Differentiation from Auton
     - [x] PostMatch Screen
         - [x] Finish state ui
         - [x] Add to database
     - [ ] Admin Screen
-        - [ ] Nuke database
-        - [ ] Export database
+        - [x] Nuke database
+        - [x] Export database
+        - [ ] Device select
     - [ ] MatchList Screen
         - [ ] Lazy list of match data to select
         - [ ] ONLY MATCHES FROM CURRENT LOGIN

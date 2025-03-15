@@ -3,14 +3,19 @@ package com.example.scouting2025.screens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonColors
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -20,17 +25,22 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
+import com.example.scouting2025.screens.StandardComponents.IncrementingBox
 
 @OptIn(ExperimentalMaterial3Api::class)
 object StandardComponents {
@@ -172,26 +182,35 @@ object StandardComponents {
         onBox3Change: (Int) -> Unit,
         box4: Int,
         onBox4Change: (Int) -> Unit,
+        isAuton: Boolean = false
     ) {
         Column (
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "4 levels of coral",
+                text = "Coral",
                 fontSize = 24.sp
             )
             IncrementingBox(
-                input = box1
+                input = box1,
+                label = "Level 4",
+                isAuton = isAuton
             ) {onBox1Change(it)}
             IncrementingBox(
-                input = box2
+                input = box2,
+                label = "Level 3",
+                isAuton = isAuton
             ) {onBox2Change(it)}
             IncrementingBox(
-                input = box3
+                input = box3,
+                label = "Level 2",
+                isAuton = isAuton
             ) {onBox3Change(it)}
             IncrementingBox(
-                input = box4
+                input = box4,
+                label = "Level 1",
+                isAuton = isAuton
             ) {onBox4Change(it)}
         }
     }
@@ -203,20 +222,25 @@ object StandardComponents {
         onBox1Change: (Int) -> Unit,
         box2: Int,
         onBox2Change: (Int) -> Unit,
+        isAuton: Boolean = false
     ) {
         Column (
-            verticalArrangement = Arrangement.Top,
-            horizontalAlignment = Alignment.CenterHorizontally
+            verticalArrangement = Arrangement.spacedBy(4.dp),
+            horizontalAlignment = Alignment.Start
         ) {
             Text(
-                text = "2 types of algae",
+                text = "Algae",
                 fontSize = 24.sp
             )
             IncrementingBox(
-                input = box1
+                input = box1,
+                label = "Processor",
+                isAuton = isAuton
             ) {onBox1Change(it)}
             IncrementingBox(
-                input = box2
+                input = box2,
+                label = "Net",
+                isAuton = isAuton
             ) {onBox2Change(it)}
         }
     }
@@ -225,6 +249,8 @@ object StandardComponents {
     fun IncrementingBox (
         modifier: Modifier = Modifier,
         input: Int,
+        label: String,
+        isAuton: Boolean,
         onValueChange: (Int) -> Unit
     ) {
 
@@ -232,24 +258,58 @@ object StandardComponents {
             horizontalArrangement = Arrangement.Center,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            SmallFloatingActionButton(
+            IncrementButton(
+                increment = false,
+                isAuton = isAuton,
                 onClick = {
                     if (input > 0) onValueChange(input - 1)
                 }
-            ) {
-                Text("-")
-            }
-            SmallFloatingActionButton(
+            )
+            OutlinedTextField(
+                value = input.toString(),
+                onValueChange = {},
+                readOnly = true,
+                modifier = Modifier
+                    .width(74.dp)
+                    .height(64.dp)
+            )
+            IncrementButton(
+                isAuton = isAuton,
                 onClick = {
                     onValueChange(input + 1)
                 }
-            ) {
-                Text("+")
-            }
+            )
             Text(
-                text = input.toString(),
-                fontSize = 24.sp
+                text = label
+            )
+        }
+    }
+
+    @Composable
+    fun IncrementButton(
+        increment: Boolean = true,
+        isAuton: Boolean,
+        onClick: () -> Unit
+    ) {
+        Button(
+            onClick = onClick,
+            contentPadding = PaddingValues(16.dp),
+            shape = RoundedCornerShape(16.dp),
+            colors = if(isAuton) ButtonDefaults.buttonColors(containerColor = Color.Green) else ButtonDefaults.buttonColors(),
+            modifier = Modifier
+                .padding(horizontal = 8.dp)
+                .width(100.dp)
+        ) {
+            Text(
+                text = if(increment) "+" else "-",
+                fontSize = 48.sp
             )
         }
     }
 }
+
+//@Preview(showBackground = true)
+//@Composable
+//private fun IncrementingBoxesPreview() {
+//    IncrementingBox(input = 0, onValueChange = {}, label = "Test label")
+//}
