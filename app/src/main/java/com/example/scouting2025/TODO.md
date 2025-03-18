@@ -1,7 +1,7 @@
 
 @ March 13, 2025
 TODO:
-    - [ ] Home Screen
+    - [-] Home Screen
         - [x] Image logos?
         - [x] Admin password dialog
         - [ ] Login dialog
@@ -16,13 +16,22 @@ TODO:
     - [x] PostMatch Screen
         - [x] Finish state ui
         - [x] Add to database
-    - [ ] Admin Screen
+    - [x] Admin Screen
         - [x] Nuke database
         - [x] Export database
-        - [ ] Device select
-    - [ ] MatchList Screen
+        - [x] Device select
+    - [-] MatchList Screen
         - [ ] Lazy list of match data to select
         - [ ] ONLY MATCHES FROM CURRENT LOGIN
-    - [ ] Revision Screen
+    - [-] Revision Screen
         - [ ] Ui to display match data and edit it
         - [ ] Update database with edited match data
+
+@ March 18, 2025
+TODO:
+    - [ ] Device display across screens
+    - [ ] Teach people how to use the app
+    - [-] Home Screen
+        - [-] Login / Logout screen
+    - [-] MatchList Screen
+    - [-] Revision Screen
