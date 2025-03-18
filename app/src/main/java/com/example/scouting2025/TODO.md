@@ -29,6 +29,7 @@ TODO:
 
 @ March 18, 2025
 TODO:
+    - [ ] Add removed algae field to MatchData
     - [ ] Device display across screens
     - [ ] Teach people how to use the app
     - [-] Home Screen
