@@ -80,6 +80,8 @@ fun TeleopScreen(
                 onBox1Change = {matchData = matchData.copy(teleopAlgaeProcessor = it)},
                 box2 = matchData.teleopAlgaeNet,
                 onBox2Change = {matchData = matchData.copy(teleopAlgaeNet = it)},
+                box3 = matchData.teleopAlgaeRemoved,
+                onBox3Change = {matchData = matchData.copy(teleopAlgaeRemoved = it)},
             )
 
         }

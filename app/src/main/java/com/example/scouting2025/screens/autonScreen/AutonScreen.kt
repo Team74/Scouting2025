@@ -87,6 +87,8 @@ fun AutonScreen(
                     onBox1Change = {matchData = matchData.copy(autonAlgaeProcessor = it)},
                     box2 = matchData.autonAlgaeNet,
                     onBox2Change = {matchData = matchData.copy(autonAlgaeNet = it)},
+                    box3 = matchData.autonAlgaeRemoved,
+                    onBox3Change = {matchData = matchData.copy(autonAlgaeRemoved = it)},
                     isAuton = true
                 )
 

@@ -25,6 +25,7 @@ data class MatchData(
     val autonCoralL4: Int = 0,
     val autonAlgaeProcessor: Int = 0,
     val autonAlgaeNet: Int = 0,
+    val autonAlgaeRemoved: Int = 0,
 
     // Teleop data
     val teleopCoralL1: Int = 0,
@@ -33,6 +34,7 @@ data class MatchData(
     val teleopCoralL4: Int = 0,
     val teleopAlgaeProcessor: Int = 0,
     val teleopAlgaeNet: Int = 0,
+    val teleopAlgaeRemoved: Int = 0,
 
     // Post match data
     val climbState: ClimbState = ClimbState.DID_NOT_MAKE_IT,
@@ -55,12 +57,14 @@ data class MatchData(
             autonCoralL4,
             autonAlgaeProcessor,
             autonAlgaeNet,
+            autonAlgaeRemoved,
             teleopCoralL1,
             teleopCoralL2,
             teleopCoralL3,
             teleopCoralL4,
             teleopAlgaeProcessor,
             teleopAlgaeNet,
+            teleopAlgaeRemoved,
             climbState,
             didRobotDisable,
             additionalNotes
@@ -95,12 +99,14 @@ data class MatchData(
                 "autonCoralL4",
                 "autonAlgaeProcessor",
                 "autonAlgaeNet",
+                "autonAlgaeRemoved",
                 "teleopCoralL1",
                 "teleopCoralL2",
                 "teleopCoralL3",
                 "teleopCoralL4",
                 "teleopAlgaeProcessor",
                 "teleopAlgaeNet",
+                "teleopAlgaeRemoved",
                 "climbState",
                 "didRobotDisable",
                 "additionalNotes"

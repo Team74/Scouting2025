@@ -223,6 +223,8 @@ object StandardComponents {
         onBox1Change: (Int) -> Unit,
         box2: Int,
         onBox2Change: (Int) -> Unit,
+        box3: Int,
+        onBox3Change: (Int) -> Unit,
         isAuton: Boolean = false
     ) {
         Column (
@@ -243,6 +245,11 @@ object StandardComponents {
                 label = "Net",
                 isAuton = isAuton
             ) {onBox2Change(it)}
+            IncrementingBox(
+                input = box3,
+                label = "Removed",
+                isAuton = isAuton
+            ) {onBox3Change(it)}
         }
     }
 
