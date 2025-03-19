@@ -14,7 +14,6 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
 import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonColors
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,10 +22,9 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.SmallFloatingActionButton
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,13 +32,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.VisualTransformation
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.text.isDigitsOnly
-import com.example.scouting2025.screens.StandardComponents.IncrementingBox
+import com.example.scouting2025.enums.Tablets
 
 @OptIn(ExperimentalMaterial3Api::class)
 object StandardComponents {
@@ -63,11 +60,31 @@ object StandardComponents {
     fun TopBar(
         title: String,
         icon: ImageVector = Icons.AutoMirrored.Default.ArrowBack,
+        device: Tablets? = null,
         onBack: () -> Unit
     ) {
         TopAppBar(
             title = { Text(title) },
-            navigationIcon = { SimpleIconButton(icon, onBack) }
+            navigationIcon = { SimpleIconButton(icon, onBack) },
+            actions = {
+                if (device != null) Text(
+                    text = device.label,
+                    fontWeight = FontWeight.Bold,
+                    modifier = Modifier
+                        .padding(end = 16.dp)
+                )
+            },
+            colors = if (device != null) {
+                TopAppBarDefaults.topAppBarColors(
+                    containerColor = when (device) {
+                        Tablets.B1, Tablets.B2, Tablets.B3 -> Color.Blue
+                        Tablets.R1, Tablets.R2, Tablets.R3 -> Color.Red
+                    },
+                    navigationIconContentColor = Color.White,
+                    titleContentColor = Color.White,
+                    actionIconContentColor = Color.White
+                )
+            } else { TopAppBarDefaults.topAppBarColors() }
         )
     }
 
@@ -174,7 +191,6 @@ object StandardComponents {
 
     @Composable
     fun CoralColumn(
-        modifier: Modifier = Modifier,
         box1: Int,
         onBox1Change: (Int) -> Unit,
         box2: Int,
@@ -218,7 +234,6 @@ object StandardComponents {
 
     @Composable
     fun AlgaeColumn(
-        modifier: Modifier = Modifier,
         box1: Int,
         onBox1Change: (Int) -> Unit,
         box2: Int,
@@ -255,7 +270,6 @@ object StandardComponents {
 
     @Composable
     fun IncrementingBox (
-        modifier: Modifier = Modifier,
         input: Int,
         label: String,
         isAuton: Boolean,

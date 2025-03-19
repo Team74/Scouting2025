@@ -36,7 +36,7 @@ fun AdminScreen(
     appDatabase: AppDatabase,
     navigator: NavHostController,
     deviceDataStore: DeviceDataStore,
-    onExport: () -> Unit
+    onExport: (String) -> Unit
 ) {
 
     //
@@ -70,7 +70,7 @@ fun AdminScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Button(
-                    onClick = onExport,
+                    onClick = { onExport(deviceModel.device) },
                     contentPadding = PaddingValues(74.dp),
                     shape = RoundedCornerShape(12.dp)
                 ) {

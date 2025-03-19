@@ -30,6 +30,8 @@ class MainActivity : ComponentActivity() {
 
     // App database instance instantiated in the onCreate function
     private lateinit var appDatabase: AppDatabase
+    // App settings instance instantiated in the onCreate function
+    private lateinit var deviceDataStore: DeviceDataStore
 
     // Activity launcher for the file selector when exporting database to csv
     val getContent = registerForActivityResult(CreateDocument("text/csv")) { uri ->
@@ -39,13 +41,12 @@ class MainActivity : ComponentActivity() {
         }
     }
     // Launch file picker to select database export destination
-    private fun launchExportPathSelector() {
+    private fun launchExportPathSelector(device: String) {
         val date = Calendar.getInstance()
         val month = date.get(Calendar.MONTH) + 1
         val day = date.get(Calendar.DAY_OF_MONTH)
         val year = date.get(Calendar.YEAR)
-        /* TODO: Change string to include the device's label */
-        getContent.launch("$month-$day-$year.database-export.csv")
+        getContent.launch("$device-$month.$day.$year-export.csv")
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -58,7 +59,7 @@ class MainActivity : ComponentActivity() {
                 appDatabase = buildAppDatabase(applicationContext)
 
                 // Instantiate the preferences datastore
-                val deviceDataStore = DeviceDataStore(applicationContext)
+                deviceDataStore = DeviceDataStore(applicationContext)
 
                 // Create the navController and screen composables
                 val navController = rememberNavController()
@@ -104,7 +105,7 @@ class MainActivity : ComponentActivity() {
                     // Admin screen for unfiltered database access
 
                     composable<NavScreen.AdminScreen> {
-                        AdminScreen(appDatabase, navController, deviceDataStore) { launchExportPathSelector() }
+                        AdminScreen(appDatabase, navController, deviceDataStore) { launchExportPathSelector(it) }
                     }
 
                 }

@@ -22,7 +22,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.example.scouting2025.database.DeviceDataStore
+import com.example.scouting2025.database.DeviceDataStore.Companion.DeviceModel
 import com.example.scouting2025.database.MatchData
+import com.example.scouting2025.enums.Tablets
 import com.example.scouting2025.screens.NavScreen
 import com.example.scouting2025.screens.StandardComponents
 
@@ -36,12 +38,10 @@ fun PreMatchScreen(
     /* ----------------------------------------------------------------------------------------- */
     // State variables
 
-    val deviceModel = deviceDataStore.deviceModel.collectAsState(
-        DeviceDataStore.Companion.DeviceModel("", "")
-    )
+    val deviceModel by deviceDataStore.deviceModel.collectAsState(DeviceModel())
 
     var matchData by remember {
-        mutableStateOf(initialMatchData.copy(onShift = deviceModel.value.loggedIn))
+        mutableStateOf(initialMatchData.copy(onShift = deviceModel.loggedIn))
     }
 
     // These will be used determine if the text fields have been edited yet and will only be true
@@ -67,7 +67,10 @@ fun PreMatchScreen(
     Scaffold(
         topBar = {
             // Top bar with a title and a back button
-            StandardComponents.TopBar("PreMatch") { navigator.popBackStack(NavScreen.HomeScreen, inclusive = false) }
+            StandardComponents.TopBar(
+                title = "PreMatch",
+                device = Tablets.strToTablet(deviceModel.device)
+            ) { navigator.popBackStack(NavScreen.HomeScreen, inclusive = false) }
         },
         floatingActionButton = {
             // Extended floating action button to move to next screen
